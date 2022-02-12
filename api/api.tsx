@@ -24,7 +24,7 @@ export const RetriveDatabase: (
 export const RetriveDatabaseDescendingPages: () => Promise<QueryDatabaseResponse> =
   async () => {
     const result = await notion.databases.query({
-      database_id: process.env.NOTION_PAGE_ID as string,
+      database_id: process.env.NOTION_DATABASE_ID as string,
       filter: {
         and: [
           {
