@@ -39,10 +39,10 @@ export const Card: VFC<Props> = ({
       borderRadius="lg"
       overflow="hidden">
       <Image src={coverUrl} />
-      <Box p="6">
+      <Box p={['4', '6']}>
         <Box display="flex" alignItems="baseline">
           {isNew && (
-            <Badge borderRadius="full" px="2" colorScheme="teal">
+            <Badge borderRadius="full" px="2">
               New
             </Badge>
           )}
@@ -57,6 +57,7 @@ export const Card: VFC<Props> = ({
           </Box>
         </Box>
         <Box
+          mx="1"
           mt="1"
           fontWeight="semibold"
           as="h4"

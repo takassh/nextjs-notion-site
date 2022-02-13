@@ -1,4 +1,5 @@
 import { AspectRatio, Box, Center, Flex, Image, Text } from '@chakra-ui/react'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 import {
   GetPageResponse,
   ListBlockChildrenResponse,
@@ -6,15 +7,12 @@ import {
 import Head from 'next/head'
 import { GetServerSideProps, NextPage } from 'next/types'
 import { RetrivePage, RetrivePageBlocks } from '../../api/api'
-import {
-  Bold,
-  BulletedListItem,
-  CodeBlock,
-  EmptyBlock,
-  H1,
-  InlineCode,
-  NormalText,
-} from '../../components/text'
+import { BulletedListItem } from '../../components/blocks/bulleted_list_item'
+import { CodeBlock } from '../../components/blocks/code'
+import { H1 } from '../../components/blocks/h1'
+import { ImageBlock } from '../../components/blocks/image'
+import { Paragraph } from '../../components/blocks/paragraph'
+import { LinkIconButton } from '../../components/link_icon_button'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
@@ -31,39 +29,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 type Props = {
   pageResponse: GetPageResponse
   blocksResponse: ListBlockChildrenResponse
-}
-
-const getParagraph = (
-  id: string,
-  text: {
-    text: { content: string; link: string }
-    annotations: {
-      bold: boolean
-      italic: boolean
-      strikethrough: boolean
-      underline: boolean
-      code: boolean
-      color: 'default'
-    }
-    plain_text: string
-    href: string
-  }[],
-) => {
-  if (text.length != 0) {
-    return text.map((v, i) => {
-      if (v.annotations.bold) {
-        return <Bold key={`bold-${i}`} text={v.plain_text} />
-      } else if (v.annotations.italic) {
-      } else if (v.annotations.strikethrough) {
-      } else if (v.annotations.underline) {
-      } else if (v.annotations.code) {
-        return <InlineCode key={`inline-code-${i}`} text={v.plain_text} />
-      }
-      return <NormalText key={`normal-${i}`} text={v.plain_text} />
-    })
-  } else {
-    return <EmptyBlock key={`empty-${id}`} />
-  }
 }
 
 const getformattedDateTime = (date: Date) =>
@@ -88,29 +53,41 @@ const ArticlePage: NextPage<Props> = (props) => {
     id: string
     type: string
     paragraph: { text: [] }
-    heading_1: { text: { plain_text: string }[] }
-    code: { text: { plain_text: string }[] }
-    bulleted_list_item: { text: { plain_text: string }[] }
+    heading_1: { text: [] }
+    code: { text: { plain_text: string; href: string }[] }
+    bulleted_list_item: { text: [] }
+    image: { file: { url: string } }
   }[]
   const mapping = results.map((v, i) => {
     switch (v.type) {
       case 'paragraph':
-        const text = v.paragraph.text as []
-        return getParagraph(v.id, text)
+        return Paragraph({
+          blockProps: {
+            parentId: v.id,
+            text: v.paragraph.text,
+          },
+          fontSize: ['sm', 'md'],
+          fontWeight: 'normal',
+        })
       case 'heading_1':
-        const h1 = v.heading_1.text[0].plain_text
-        return <H1 key={`heading_1-${i}`} text={h1} />
+        return (
+          <H1
+            key={`heading_1-${i}`}
+            blockProps={{ parentId: v.id, text: v.heading_1.text }}
+          />
+        )
       case 'code':
         const code = v.code.text[0].plain_text
         return <CodeBlock key={`code-${i}`} text={code} />
       case 'bulleted_list_item':
-        const bulletedListItem = v.bulleted_list_item.text[0].plain_text
         return (
           <BulletedListItem
             key={`bulleted_list_item-${i}`}
-            text={bulletedListItem}
+            blockProps={{ parentId: v.id, text: v.bulleted_list_item.text }}
           />
         )
+      case 'image':
+        return <ImageBlock key={`image-${i}`} url={v.image.file.url} />
     }
   })
 
@@ -123,13 +100,16 @@ const ArticlePage: NextPage<Props> = (props) => {
         <meta property="og:image" content={coverUrl} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Flex width="full" direction="column">
-        <Box marginTop={[2, 4]} marginX={[4, 16]}>
+      <Flex marginTop={[2, 4]} width="full" direction="column">
+        <Box marginX={[4, 16]}>
           <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">
             <Image shadow="2xl" rounded="lg" src={coverUrl} />
           </AspectRatio>
+          <Box position="relative" left={['2', '4']} bottom={[5, 10]}>
+            <LinkIconButton href="/" icon={faHome} />
+          </Box>
         </Box>
-        <Center marginTop={[8, 24]} marginBottom="12">
+        <Center marginBottom="12">
           <Flex align="center" direction="column">
             <Text fontWeight="bold" fontSize={['lg', '4xl']}>
               {title}
