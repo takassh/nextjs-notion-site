@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Takassh Blog</title>
         <meta name="description" content="takassh blog" />
+        <meta property="og:description" content="takassh blog" />
       </Head>
       <ChakraProvider theme={theme}>
         <Box as="main" width="full">

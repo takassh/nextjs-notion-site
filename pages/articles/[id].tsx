@@ -3,6 +3,7 @@ import {
   GetPageResponse,
   ListBlockChildrenResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import Head from 'next/head'
 import { GetServerSideProps, NextPage } from 'next/types'
 import { RetrivePage, RetrivePageBlocks } from '../../api/api'
 import {
@@ -117,6 +118,11 @@ const ArticlePage: NextPage<Props> = (props) => {
 
   return (
     <>
+      <Head>
+        <meta property="og:title" content={title} />
+        <meta property="og:image" content={coverUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
       <Flex width="full" direction="column">
         <Box marginTop={[2, 4]} marginX={[4, 16]}>
           <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">

@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import type { GetServerSideProps, NextPage } from 'next'
+import Head from 'next/head'
 import NextLink from 'next/link'
 import { RetriveDatabaseDescendingPages } from '../api/api'
 import { Card } from '../components/card'
@@ -32,15 +33,23 @@ const Home: NextPage<Props> = (props) => {
   const databaseResponseResults = props.response.results
   return (
     <>
+      <Head>
+        <meta property="og:title" content="Takassh Blog" />
+        <meta
+          property="og:image"
+          content="https://nextjs-notion-site.vercel.app/colorful.jpg"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
       <Flex width="full" direction="column">
-        <Box marginTop={[2, 4]} marginX={[4, 16]}>
-          <AspectRatio ratio={4 / 1} backgroundColor="transparent">
+        <Box marginTop={[2, 4]} marginX={[2, 16]}>
+          <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">
             <Image shadow="2xl" rounded="lg" src="/colorful.jpg" />
           </AspectRatio>
-          <Center position="relative" bottom={[5, 16]}>
+          <Center position="relative" bottom={[8, 16]}>
             <Image
               shadow="2xl"
-              boxSize={[10, 28]}
+              boxSize={[14, 28]}
               borderRadius="full"
               src="/fireworks.JPG"
             />
@@ -56,7 +65,7 @@ const Home: NextPage<Props> = (props) => {
           </Flex>
         </Center>
         <Center>
-          <Wrap marginX={[0, 24]}>
+          <Wrap marginX={[2, 24]}>
             {databaseResponseResults.map((v: any) => {
               return (
                 <WrapItem key={v.id}>
