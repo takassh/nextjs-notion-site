@@ -8,7 +8,7 @@ export const H2: FC<{ blockProps: BlockProps }> = ({ blockProps }) => {
     <Box marginY="2" isTruncated>
       {Paragraph({
         blockProps: blockProps,
-        fontSize: ['xl', '2xl'],
+        fontSize: '2xl',
         fontWeight: 'bold',
       })}
     </Box>

@@ -128,9 +128,13 @@ const ArticlePage: NextPage<Props> = (props) => {
             <LinkIconButton href="/" icon={faHome} />
           </Box>
         </Box>
-        <Center marginBottom="12">
-          <Flex align="center" direction="column">
-            <Text fontWeight="bold" fontSize={['lg', '4xl']}>
+        <Center marginX={[2, 24]} marginBottom="12">
+          <Flex maxWidth="100%" align="center" direction="column">
+            <Text
+              maxWidth="100%"
+              fontWeight="bold"
+              fontSize={['2xl', '4xl']}
+              isTruncated>
               {title}
             </Text>
             <Text

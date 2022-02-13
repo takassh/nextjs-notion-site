@@ -5,7 +5,7 @@ export const ImageBlock: VFC<{ url: string }> = ({ url }) => {
   return (
     <Center>
       <Box maxWidth="full">
-        <Image src={url} />
+        <Image rounded="lg" src={url} />
       </Box>
     </Center>
   )

@@ -7,7 +7,7 @@ export const BulletedListItem: FC<{ blockProps: BlockProps }> = ({
   blockProps,
 }) => {
   return (
-    <UnorderedList paddingX="2" paddingY={['0', '1']} fontSize="md">
+    <UnorderedList paddingX="2" paddingY={['0.5', '1']}>
       <ListItem>
         {Paragraph({
           blockProps: blockProps,

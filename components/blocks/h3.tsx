@@ -5,10 +5,10 @@ import { Paragraph } from './paragraph'
 
 export const H3: FC<{ blockProps: BlockProps }> = ({ blockProps }) => {
   return (
-    <Box marginY="1" isTruncated>
+    <Box marginY="2" isTruncated>
       {Paragraph({
         blockProps: blockProps,
-        fontSize: 'lg',
+        fontSize: 'xl',
         fontWeight: 'bold',
       })}
     </Box>

@@ -5,7 +5,7 @@ import { FC } from 'react'
 export const InlineLink: FC<{ href: string }> = ({ href, children }) => {
   return (
     <NextLink href={href} passHref>
-      <Link>{children}</Link>
+      <Link color="teal.500">{children}</Link>
     </NextLink>
   )
 }

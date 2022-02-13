@@ -13,7 +13,7 @@ export const InlineCode: VFC<{ text: string; href: string }> = ({
       as="span"
       backgroundColor={colorMode == 'light' ? 'gray.100' : 'gray.700'}
       padding="1"
-      fontSize="md">
+      fontSize="sm">
       {text}
     </Text>
   )
