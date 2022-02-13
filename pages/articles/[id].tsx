@@ -47,7 +47,8 @@ const ArticlePage: NextPage<Props> = (props) => {
   const pageResponse = props.pageResponse as any
   const blocksResponse = props.blocksResponse as any
 
-  const coverUrl = pageResponse.cover.external.url
+  const coverUrl =
+    pageResponse.cover?.external?.url ?? pageResponse.cover?.file?.url
   const title = pageResponse.properties.name.title[0].plain_text
   const date = new Date(pageResponse.created_time)
 
@@ -143,7 +144,7 @@ const ArticlePage: NextPage<Props> = (props) => {
             </Text>
           </Flex>
         </Center>
-        <Box marginX={[2, 24]}>{body}</Box>
+        <Box marginX={[4, 24]}>{body}</Box>
       </Flex>
     </>
   )

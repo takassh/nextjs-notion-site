@@ -1,4 +1,4 @@
-import { Badge, Box, Image } from '@chakra-ui/react'
+import { AspectRatio, Badge, Box, Image } from '@chakra-ui/react'
 import { VFC } from 'react'
 
 type Props = {
@@ -6,7 +6,6 @@ type Props = {
   lastEditedTime: string
   coverUrl: string
   name: string
-  linkUrl: string
 }
 
 const getformattedDateTime = (date: Date) =>
@@ -23,7 +22,6 @@ export const Card: VFC<Props> = ({
   name,
   createdTime,
   coverUrl,
-  linkUrl,
   lastEditedTime,
 }) => {
   const date = new Date(createdTime)
@@ -38,8 +36,10 @@ export const Card: VFC<Props> = ({
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden">
-      <Image src={coverUrl} />
-      <Box p={['4', '6']}>
+      <AspectRatio ratio={10 / 7} backgroundColor="transparent">
+        <Image src={coverUrl} />
+      </AspectRatio>
+      <Box p={['4', '5']}>
         <Box display="flex" alignItems="baseline">
           {isNew && (
             <Badge borderRadius="full" px="2">

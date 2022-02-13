@@ -74,7 +74,7 @@ const Home: NextPage<Props> = (props) => {
         </Box>
 
         <Center>
-          <Box marginX={['2', '10']}>
+          <Box marginX={['4', '10']}>
             <Text as="span" fontWeight="semibold" fontSize={['xs', 'sm']}>
               Hello! This site is powered by NextJs and Notion. Github
               repository is
@@ -104,8 +104,7 @@ const Home: NextPage<Props> = (props) => {
                       <Card
                         name={v.properties.name.title[0].plain_text}
                         createdTime={v.created_time}
-                        coverUrl={v.cover?.external.url}
-                        linkUrl=""
+                        coverUrl={v.cover?.external?.url ?? v.cover?.file?.url}
                         lastEditedTime=""
                       />
                     </Link>
