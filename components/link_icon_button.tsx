@@ -13,10 +13,10 @@ export const LinkIconButton: VFC<{ icon: IconDefinition; href: string }> = ({
     <NextLink href={href} passHref>
       <Link style={{ textDecoration: 'none' }}>
         <Icon
+          borderRadius="40%"
           _hover={{ shadow: 'lg' }}
-          rounded="full"
-          padding={['2', '4']}
-          fontSize={['xl', '4xl']}
+          padding={['2', '3']}
+          fontSize={['4xl', '5xl']}
           as={FontAwesomeIcon}
           icon={icon}
           color={colorMode == 'light' ? 'black' : 'white'}

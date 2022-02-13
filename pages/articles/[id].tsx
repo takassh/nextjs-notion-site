@@ -119,7 +119,7 @@ const ArticlePage: NextPage<Props> = (props) => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Flex marginTop={[2, 4]} width="full" direction="column">
-        <Box marginX={[4, 16]}>
+        <Box marginX={[2, 16]}>
           <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">
             <Image shadow="2xl" rounded="lg" src={coverUrl} />
           </AspectRatio>

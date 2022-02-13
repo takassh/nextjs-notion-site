@@ -60,7 +60,7 @@ const Home: NextPage<Props> = (props) => {
             <Spacer />
             <Image
               shadow="2xl"
-              boxSize={[14, 28]}
+              boxSize={[16, 28]}
               borderRadius="full"
               src="/fireworks.JPG"
             />
