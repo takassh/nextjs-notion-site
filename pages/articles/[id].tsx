@@ -10,6 +10,8 @@ import { RetrivePage, RetrivePageBlocks } from '../../api/api'
 import { BulletedListItem } from '../../components/blocks/bulleted_list_item'
 import { CodeBlock } from '../../components/blocks/code'
 import { H1 } from '../../components/blocks/h1'
+import { H2 } from '../../components/blocks/h2'
+import { H3 } from '../../components/blocks/h3'
 import { ImageBlock } from '../../components/blocks/image'
 import { Paragraph } from '../../components/blocks/paragraph'
 import { LinkIconButton } from '../../components/link_icon_button'
@@ -54,6 +56,8 @@ const ArticlePage: NextPage<Props> = (props) => {
     type: string
     paragraph: { text: [] }
     heading_1: { text: [] }
+    heading_2: { text: [] }
+    heading_3: { text: [] }
     code: { text: { plain_text: string; href: string }[] }
     bulleted_list_item: { text: [] }
     image: { file: { url: string } }
@@ -74,6 +78,20 @@ const ArticlePage: NextPage<Props> = (props) => {
           <H1
             key={`heading_1-${i}`}
             blockProps={{ parentId: v.id, text: v.heading_1.text }}
+          />
+        )
+      case 'heading_2':
+        return (
+          <H2
+            key={`heading_2-${i}`}
+            blockProps={{ parentId: v.id, text: v.heading_2.text }}
+          />
+        )
+      case 'heading_3':
+        return (
+          <H3
+            key={`heading_3-${i}`}
+            blockProps={{ parentId: v.id, text: v.heading_3.text }}
           />
         )
       case 'code':
