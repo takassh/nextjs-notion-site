@@ -2,8 +2,8 @@ import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { useEffect, VFC } from 'react'
 
-const GA_ID = process.env.GA_I as string
-const isProduction = process.env.NODE_ENV == 'production'
+const GA_ID = process.env.GA_ID as string
+const isProduction = process.env.NODE_ENV != 'production'
 
 const pageview = (path: string) => {
   window.gtag('config', GA_ID, {
@@ -12,7 +12,6 @@ const pageview = (path: string) => {
 }
 
 export const usePageView = () => {
-  console.log(isProduction)
   const router = useRouter()
 
   useEffect(() => {
