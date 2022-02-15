@@ -12,9 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Takassh Blog</title>
-        <meta name="description" content="takassh blog" />
-        <meta property="og:description" content="takassh blog" />
+        <title>Takassh Dev Blog</title>
+        <meta name="description" content="takassh dev blog" />
+        <meta property="og:description" content="takassh dev blog" />
       </Head>
       <GoogleAnalyticsTag />
       <ChakraProvider theme={theme}>

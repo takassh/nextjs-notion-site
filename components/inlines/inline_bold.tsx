@@ -4,7 +4,7 @@ import { InlineLink } from './inline_link'
 
 export const InlineBold: VFC<{
   text: string
-  href: string
+  href: string | null
   fontSize: string[] | string
 }> = ({ text, href, fontSize }) => {
   const child = (

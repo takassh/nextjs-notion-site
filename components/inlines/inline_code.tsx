@@ -2,7 +2,7 @@ import { Text, useColorMode } from '@chakra-ui/react'
 import { VFC } from 'react'
 import { InlineLink } from './inline_link'
 
-export const InlineCode: VFC<{ text: string; href: string }> = ({
+export const InlineCode: VFC<{ text: string; href: string | null }> = ({
   text,
   href,
 }) => {

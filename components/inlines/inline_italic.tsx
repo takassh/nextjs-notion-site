@@ -4,7 +4,7 @@ import { InlineLink } from './inline_link'
 
 export const InlineItalic: VFC<{
   text: string
-  href: string
+  href: string | null
   fontSize: string[] | string
   fontWeight: string[] | string
 }> = ({ text, href, fontSize, fontWeight }) => {

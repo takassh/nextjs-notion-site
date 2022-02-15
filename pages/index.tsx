@@ -7,34 +7,26 @@ import {
   Image,
   Link,
   Spacer,
+  Spinner,
   Text,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { RetriveDatabaseDescendingPages } from '../api/api'
+import useSWR from 'swr'
 import { Card } from '../components/card'
 import { LinkIconButton } from '../components/link_icon_button'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const response = await RetriveDatabaseDescendingPages()
-  return {
-    props: {
-      response,
-    },
-  }
-}
+const Home: NextPage = () => {
+  const { data, error } = useSWR<QueryDatabaseResponse, Error>(
+    '/api/retrive_database_descending_pages',
+    (url) => fetch(url).then((r) => r.json()),
+  )
 
-type Props = {
-  response: QueryDatabaseResponse
-}
-
-const Home: NextPage<Props> = (props) => {
-  const databaseResponseResults = props.response.results
   return (
     <>
       <Head>
@@ -95,24 +87,30 @@ const Home: NextPage<Props> = (props) => {
           <Text fontWeight="bold">Blog</Text>
         </Center>
         <Center>
-          <Wrap marginX={[2, 24]}>
-            {databaseResponseResults.map((v: any) => {
-              return (
-                <WrapItem key={v.id}>
-                  <NextLink href={`/articles/${v.id}`} passHref>
-                    <Link style={{ textDecoration: 'none' }}>
-                      <Card
-                        name={v.properties.name.title[0].plain_text}
-                        createdTime={v.created_time}
-                        coverUrl={v.cover?.external?.url ?? v.cover?.file?.url}
-                        lastEditedTime=""
-                      />
-                    </Link>
-                  </NextLink>
-                </WrapItem>
-              )
-            })}
-          </Wrap>
+          {error || !data ? (
+            <Spinner />
+          ) : (
+            <Wrap marginX={[2, 24]}>
+              {data.results.map((v: any) => {
+                return (
+                  <WrapItem key={v.id}>
+                    <NextLink href={`/articles/${v.id}`} passHref>
+                      <Link style={{ textDecoration: 'none' }}>
+                        <Card
+                          name={v.properties.name.title[0].plain_text}
+                          createdTime={v.created_time}
+                          coverUrl={
+                            v.cover?.external?.url ?? v.cover?.file?.url
+                          }
+                          lastEditedTime=""
+                        />
+                      </Link>
+                    </NextLink>
+                  </WrapItem>
+                )
+              })}
+            </Wrap>
+          )}
         </Center>
       </Flex>
     </>
