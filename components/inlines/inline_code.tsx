@@ -1,11 +1,8 @@
 import { Text, useColorMode } from '@chakra-ui/react'
-import { VFC } from 'react'
+import { FC } from 'react'
 import { InlineLink } from './inline_link'
 
-export const InlineCode: VFC<{ text: string; href: string | null }> = ({
-  text,
-  href,
-}) => {
+export const InlineCode: FC<{ href: string | null }> = ({ children, href }) => {
   const { colorMode } = useColorMode()
   const child = (
     <Text
@@ -14,7 +11,7 @@ export const InlineCode: VFC<{ text: string; href: string | null }> = ({
       backgroundColor={colorMode == 'light' ? 'gray.100' : 'gray.700'}
       padding="1"
       fontSize="sm">
-      {text}
+      {children}
     </Text>
   )
 

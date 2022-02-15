@@ -25,27 +25,23 @@ export const ToggleBlock: FC<{
 
   return (
     <Accordion allowToggle>
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              {Paragraph({
-                id: id,
-                text: text,
-                fontSize: ['sm', 'md'],
-                fontWeight: 'normal',
-              })}
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
+      <AccordionItem style={{ border: 'none' }}>
+        <AccordionButton paddingY={2} paddingX={0}>
+          <AccordionIcon />
+          {Paragraph({
+            id: id,
+            text: text,
+            fontSize: ['sm', 'md'],
+            fontWeight: 'normal',
+          })}
+        </AccordionButton>
         <AccordionPanel>
           {error || !data ? (
             <Center>
               <Spinner />
             </Center>
           ) : (
-            <Box marginX={[2, 12]}>{Block(data.results)}</Box>
+            <Box>{Block(data.results)}</Box>
           )}
         </AccordionPanel>
       </AccordionItem>

@@ -1,16 +1,15 @@
 import { Text } from '@chakra-ui/react'
-import { VFC } from 'react'
+import { FC } from 'react'
 import { InlineLink } from './inline_link'
 
-export const InlineItalic: VFC<{
-  text: string
+export const InlineItalic: FC<{
   href: string | null
   fontSize: string[] | string
   fontWeight: string[] | string
-}> = ({ text, href, fontSize, fontWeight }) => {
+}> = ({ children, href, fontSize, fontWeight }) => {
   const child = (
     <Text as="i" fontSize={fontSize} fontWeight={fontWeight}>
-      {text}
+      {children}
     </Text>
   )
   if (href == null) {

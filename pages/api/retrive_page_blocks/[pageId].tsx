@@ -12,11 +12,14 @@ const RetrivePageBlocks: (
   res: NextApiResponse<ListBlockChildrenResponse>,
 ) => Promise<void> = async (req, res) => {
   const { pageId } = req.query
-  const result = await notion.blocks.children.list({
-    block_id: pageId as string,
-  })
-
-  res.status(200).json(result)
+  if (pageId == 'undefined') {
+    res.status(404)
+  } else {
+    const result = await notion.blocks.children.list({
+      block_id: pageId as string,
+    })
+    res.status(200).json(result)
+  }
 }
 
 export default RetrivePageBlocks

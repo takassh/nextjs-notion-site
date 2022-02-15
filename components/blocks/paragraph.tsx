@@ -1,5 +1,4 @@
 import { RichTextItemResponse } from '../../types/api-endpoints'
-import { InlineBold } from '../inlines/inline_bold'
 import { InlineCode } from '../inlines/inline_code'
 import { InlineItalic } from '../inlines/inline_italic'
 import { InlineStrikethrough } from '../inlines/inline_strikethrough'
@@ -23,63 +22,72 @@ export const Paragraph: ({
   if (text.length != 0) {
     return text
       .map((v, i) => {
+        let child = <></>
+
         if (v.annotations.bold) {
-          return (
-            <InlineBold
+          child = (
+            <InlineText
               key={`bold-${i}`}
-              text={v.plain_text}
               href={v.href}
               fontSize={fontSize}
-            />
+              fontWeight="bold">
+              {v.plain_text}
+            </InlineText>
           )
-        } else if (v.annotations.italic) {
-          return (
-            <InlineItalic
-              key={`italic-${i}`}
-              text={v.plain_text}
+        } else {
+          child = (
+            <InlineText
+              key={`normal-${i}`}
               href={v.href}
               fontSize={fontSize}
-              fontWeight={fontWeight}
-            />
-          )
-        } else if (v.annotations.strikethrough) {
-          return (
-            <InlineStrikethrough
-              key={`strikethrough-${i}`}
-              text={v.plain_text}
-              href={v.href}
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-            />
-          )
-        } else if (v.annotations.underline) {
-          return (
-            <InlineUnderline
-              key={`underline-${i}`}
-              text={v.plain_text}
-              href={v.href}
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-            />
-          )
-        } else if (v.annotations.code) {
-          return (
-            <InlineCode
-              key={`inline-code-${i}`}
-              text={v.plain_text}
-              href={v.href}
-            />
+              fontWeight={fontWeight}>
+              {v.plain_text}
+            </InlineText>
           )
         }
-        return (
-          <InlineText
-            key={`normal-${i}`}
-            text={v.plain_text}
-            href={v.href}
-            fontSize={fontSize}
-            fontWeight={fontWeight}
-          />
-        )
+
+        if (v.annotations.italic) {
+          child = (
+            <InlineItalic
+              key={`italic-${i}`}
+              href={v.href}
+              fontSize={fontSize}
+              fontWeight={fontWeight}>
+              {child}
+            </InlineItalic>
+          )
+        }
+        if (v.annotations.strikethrough) {
+          child = (
+            <InlineStrikethrough
+              key={`strikethrough-${i}`}
+              href={v.href}
+              fontSize={fontSize}
+              fontWeight={fontWeight}>
+              {child}
+            </InlineStrikethrough>
+          )
+        }
+        if (v.annotations.underline) {
+          child = (
+            <InlineUnderline
+              key={`underline-${i}`}
+              href={v.href}
+              fontSize={fontSize}
+              fontWeight={fontWeight}>
+              {child}
+            </InlineUnderline>
+          )
+        }
+        if (v.annotations.code) {
+          child = (
+            <InlineCode key={`inline-code-${i}`} href={v.href}>
+              {child}
+            </InlineCode>
+          )
+        }
+
+        return child
       })
       .flat()
   } else {

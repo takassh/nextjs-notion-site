@@ -13,11 +13,15 @@ const RetriveDatabase: (
 ) => Promise<void> = async (req, res) => {
   const { databaseId } = req.query
 
-  const result = await notion.databases.retrieve({
-    database_id: databaseId as string,
-  })
+  if (databaseId == 'undefined') {
+    res.status(404)
+  } else {
+    const result = await notion.databases.retrieve({
+      database_id: databaseId as string,
+    })
 
-  res.status(200).json(result)
+    res.status(200).json(result)
+  }
 }
 
 export default RetriveDatabase

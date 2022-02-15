@@ -10,7 +10,7 @@ const notion = new Client({
 const RetriveDatabaseDescendingPages: (
   req: NextApiRequest,
   res: NextApiResponse<QueryDatabaseResponse>,
-) => Promise<void> = async (req, res) => {
+) => Promise<void> = async (_, res) => {
   const result = await notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID as string,
     filter: {
