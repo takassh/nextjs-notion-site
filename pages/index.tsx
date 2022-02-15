@@ -42,11 +42,7 @@ const Home: NextPage = () => {
           <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">
             <Image shadow="2xl" rounded="lg" src="/colorful.jpg" />
           </AspectRatio>
-          <Flex
-            justifyContent="center"
-            align="center"
-            position="relative"
-            bottom={[8, 16]}>
+          <Flex align="center" position="relative" bottom={[8, 16]}>
             <Spacer />
             <LinkIconButton href="https://github.com/takassh" icon={faGithub} />
             <Spacer />
@@ -90,7 +86,7 @@ const Home: NextPage = () => {
           {error || !data ? (
             <Spinner />
           ) : (
-            <Wrap marginX={[2, 24]}>
+            <Wrap spacing={[0, '0.5rem']} justify="center">
               {data.results.map((v: any) => {
                 return (
                   <WrapItem key={v.id}>
@@ -102,7 +98,6 @@ const Home: NextPage = () => {
                           coverUrl={
                             v.cover?.external?.url ?? v.cover?.file?.url
                           }
-                          lastEditedTime=""
                         />
                       </Link>
                     </NextLink>

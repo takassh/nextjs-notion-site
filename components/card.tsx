@@ -3,7 +3,6 @@ import { VFC } from 'react'
 
 type Props = {
   createdTime: string
-  lastEditedTime: string
   coverUrl: string
   name: string
 }
@@ -18,12 +17,7 @@ const getformattedDateTime = (date: Date) =>
     date.getSeconds(),
   ).padStart(2, '0')}`
 
-export const Card: VFC<Props> = ({
-  name,
-  createdTime,
-  coverUrl,
-  lastEditedTime,
-}) => {
+export const Card: VFC<Props> = ({ name, createdTime, coverUrl }) => {
   const date = new Date(createdTime)
   const now = Date.now()
   const diffTime = now - date.getTime()
@@ -32,11 +26,16 @@ export const Card: VFC<Props> = ({
   return (
     <Box
       _hover={{ shadow: 'md' }}
-      maxW="sm"
+      marginY={['0.5', 0]}
+      maxW={['', '2xs']}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden">
-      <AspectRatio ratio={10 / 7} backgroundColor="transparent">
+      <AspectRatio
+        maxW={['', '2xs']}
+        width={['calc(100vw - 0.5rem)', '']}
+        ratio={2 / 1}
+        backgroundColor="transparent">
         <Image src={coverUrl} />
       </AspectRatio>
       <Box p={['4', '5']}>
