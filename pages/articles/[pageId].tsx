@@ -58,6 +58,7 @@ const ArticlePage: NextPage = () => {
 
     headComponent = (
       <Head>
+        <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:image" content={coverUrl} />
         <meta name="twitter:card" content="summary_large_image" />
