@@ -3,7 +3,7 @@ import Script from 'next/script'
 import { useEffect, VFC } from 'react'
 
 const GA_ID = process.env.GA_ID as string
-const isProduction = process.env.NODE_ENV != 'production'
+const isProduction = process.env.NODE_ENV == 'production'
 
 const pageview = (path: string) => {
   window.gtag('config', GA_ID, {
