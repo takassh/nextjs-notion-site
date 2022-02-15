@@ -12,6 +12,7 @@ const pageview = (path: string) => {
 }
 
 export const usePageView = () => {
+  console.log(isProduction)
   const router = useRouter()
 
   useEffect(() => {
