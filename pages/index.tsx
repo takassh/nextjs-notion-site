@@ -30,7 +30,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <meta property="og:title" content="Takassh Blog" />
+        <meta property="og:title" content="Takassh Dev Blog" />
         <meta
           property="og:image"
           content="https://nextjs-notion-site.vercel.app/colorful.jpg"
