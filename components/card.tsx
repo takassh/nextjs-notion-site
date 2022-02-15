@@ -25,15 +25,16 @@ export const Card: VFC<Props> = ({ name, createdTime, coverUrl }) => {
   const isNew = diffDay <= 7
   return (
     <Box
+      shadow={['md', 'none']}
       _hover={{ shadow: 'md' }}
-      marginY={['0.5', 0]}
+      marginY={['1', 0]}
       maxW={['', '2xs']}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden">
       <AspectRatio
         maxW={['', '2xs']}
-        width={['calc(100vw - 0.5rem)', '']}
+        width={['calc(100vw - 2rem)', '']}
         ratio={2 / 1}
         backgroundColor="transparent">
         <Image src={coverUrl} />

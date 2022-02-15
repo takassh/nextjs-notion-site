@@ -80,7 +80,7 @@ const Home: NextPage = () => {
 
         <Divider marginY="5" />
         <Center marginBottom="5">
-          <Text fontWeight="bold">Blog</Text>
+          <Text fontWeight="bold">Dev Blog</Text>
         </Center>
         <Center>
           {error || !data ? (

@@ -4,6 +4,7 @@ import { VFC } from 'react'
 export const CodeBlock: VFC<{ text: string }> = ({ text }) => {
   return (
     <Code
+      overflow="scroll"
       rounded="md"
       fontSize={['xs', 'sm']}
       width="full"
