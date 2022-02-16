@@ -8,12 +8,19 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
+import 'extensions/date'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { NextPage } from 'next/types'
+import { GetServerSideProps, NextPage } from 'next/types'
 import useSWR from 'swr'
 import { Block } from '../../components/blocks/block'
 import { LinkIconButton } from '../../components/link_icon_button'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {},
+  }
+}
 
 const getformattedDateTime = (date: Date) =>
   `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
@@ -90,7 +97,7 @@ const ArticlePage: NextPage = () => {
               letterSpacing="wide"
               fontSize="xs"
               textTransform="uppercase">
-              {getformattedDateTime(date)}
+              {date.formattedDateTime()}
             </Text>
           </Flex>
         </Center>

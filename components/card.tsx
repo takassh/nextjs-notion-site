@@ -1,4 +1,5 @@
 import { AspectRatio, Badge, Box, Image } from '@chakra-ui/react'
+import 'extensions/date'
 import { VFC } from 'react'
 
 type Props = {
@@ -6,16 +7,6 @@ type Props = {
   coverUrl: string
   name: string
 }
-
-const getformattedDateTime = (date: Date) =>
-  `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
-    2,
-    '0',
-  )}/${String(date.getDate()).padStart(2, '0')} ${String(
-    date.getHours(),
-  ).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(
-    date.getSeconds(),
-  ).padStart(2, '0')}`
 
 export const Card: VFC<Props> = ({ name, createdTime, coverUrl }) => {
   const date = new Date(createdTime)
@@ -53,7 +44,7 @@ export const Card: VFC<Props> = ({ name, createdTime, coverUrl }) => {
             fontSize="xs"
             textTransform="uppercase"
             ml="2">
-            {getformattedDateTime(date)}
+            {date.formattedDateTime()}
           </Box>
         </Box>
         <Box
