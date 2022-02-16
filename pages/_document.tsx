@@ -3,7 +3,7 @@ import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
 class Document extends NextDocument {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render() {
-    const GA_ID = 'G-WXW8JCHBCP'
+    const GA_ID = process.env.GA_ID
     return (
       <Html lang="ja">
         <Head>

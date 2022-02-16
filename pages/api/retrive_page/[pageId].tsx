@@ -12,15 +12,11 @@ const RetrivePage: (
   res: NextApiResponse<GetPageResponse>,
 ) => Promise<void> = async (req, res) => {
   const { pageId } = req.query
-  if (pageId == 'undefined') {
-    res.status(404)
-  } else {
-    const result = await notion.pages.retrieve({
-      page_id: pageId as string,
-    })
+  const result = await notion.pages.retrieve({
+    page_id: pageId as string,
+  })
 
-    res.status(200).json(result)
-  }
+  res.status(200).json(result)
 }
 
 export default RetrivePage
