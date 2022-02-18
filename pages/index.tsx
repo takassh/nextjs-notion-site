@@ -18,7 +18,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import useSWR from 'swr'
-import { Card } from '../components/card'
+import { ArticleCard } from '../components/article_card'
 import { LinkIconButton } from '../components/link_icon_button'
 
 const Home: NextPage = () => {
@@ -87,23 +87,16 @@ const Home: NextPage = () => {
             <Spinner />
           ) : (
             <Wrap spacing={[0, '0.5rem']} justify="center">
-              {data.results.map((v: any) => {
-                return (
-                  <WrapItem key={v.id}>
-                    <NextLink href={`/articles/${v.id}`} passHref>
-                      <Link style={{ textDecoration: 'none' }}>
-                        <Card
-                          name={v.properties.name.title[0].plain_text}
-                          createdTime={v.created_time}
-                          coverUrl={
-                            v.cover?.external?.url ?? v.cover?.file?.url
-                          }
-                        />
-                      </Link>
-                    </NextLink>
-                  </WrapItem>
-                )
-              })}
+              {data.results.map((v: any) => (
+                <WrapItem key={v.id}>
+                  <ArticleCard
+                    id={v.id}
+                    name={v.properties.name.title[0].plain_text}
+                    createdTime={v.created_time}
+                    coverUrl={v.cover?.external?.url ?? v.cover?.file?.url}
+                  />
+                </WrapItem>
+              ))}
             </Wrap>
           )}
         </Center>
