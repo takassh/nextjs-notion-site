@@ -1,4 +1,17 @@
-import { AspectRatio, Badge, Box, Image, Link, Spinner } from '@chakra-ui/react'
+import {
+  AspectRatio,
+  Badge,
+  Box,
+  Flex,
+  Icon,
+  Image,
+  Link,
+  Spinner,
+  Text,
+} from '@chakra-ui/react'
+import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'extensions/date'
 import NextLink from 'next/link'
 import { useState, VFC } from 'react'
@@ -8,6 +21,8 @@ type Props = {
   createdTime: string
   coverUrl: string
   name: string
+  isLiked: boolean
+  likedCount: number
 }
 
 export const ArticleCard: VFC<Props> = ({
@@ -15,6 +30,8 @@ export const ArticleCard: VFC<Props> = ({
   name,
   createdTime,
   coverUrl,
+  isLiked,
+  likedCount,
 }) => {
   const [isLoading, setLoading] = useState<boolean>(false)
 
@@ -44,7 +61,7 @@ export const ArticleCard: VFC<Props> = ({
             <Image src={coverUrl} />
           </AspectRatio>
           <Box p={['4', '5']}>
-            <Box display="flex" alignItems="baseline">
+            <Flex alignItems="center" marginBottom="1">
               {isNew && (
                 <Badge borderRadius="full" px="2">
                   New
@@ -56,10 +73,23 @@ export const ArticleCard: VFC<Props> = ({
                 letterSpacing="wide"
                 fontSize="xs"
                 textTransform="uppercase"
-                ml="2">
-                {date.formattedDateTime()}
+                marginX="1">
+                {date.dateTimeBefore()}
               </Box>
-            </Box>
+
+              <Flex justify="center" align="center">
+                <Icon
+                  marginX="1"
+                  fontSize={['xs', 'xs']}
+                  as={FontAwesomeIcon}
+                  icon={likedCount > 0 ? faSolidHeart : faRegularHeart}
+                  color={isLiked ? 'red' : ''}
+                />
+                {likedCount > 0 && (
+                  <Text fontSize={['xs', 'xs']}>{likedCount}</Text>
+                )}
+              </Flex>
+            </Flex>
             <Box
               mx="1"
               mt="1"

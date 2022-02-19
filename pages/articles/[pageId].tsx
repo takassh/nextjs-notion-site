@@ -4,17 +4,25 @@ import {
   Center,
   Flex,
   Image,
+  Spacer,
   Spinner,
   Text,
 } from '@chakra-ui/react'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons'
+import {
+  faHeart as faSolidHeart,
+  faHome,
+} from '@fortawesome/free-solid-svg-icons'
 import { GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Block } from 'components/blocks/block'
+import { IconButton } from 'components/icon_button'
 import { LinkIconButton } from 'components/link_icon_button'
+import { RootState } from 'ducks/store'
 import 'extensions/date'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, NextPage } from 'next/types'
+import { useSelector } from 'react-redux'
 import useSWR from 'swr'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -28,6 +36,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
+const like: ({
+  articlePageId,
+  userPageId,
+}: {
+  articlePageId: string
+  userPageId: string
+}) => Promise<void> = async ({ articlePageId, userPageId }) => {
+  await fetch(`/api/like_article/${articlePageId}/${userPageId}`)
+}
+
+const destroyLike: ({
+  articlePageId,
+  userPageId,
+}: {
+  articlePageId: string
+  userPageId: string
+}) => Promise<void> = async ({ articlePageId, userPageId }) => {
+  await fetch(`/api/destroy_liked_article/${articlePageId}/${userPageId}`)
+}
+
 type Props = {
   pageData: GetPageResponse
 }
@@ -35,13 +63,34 @@ type Props = {
 const ArticlePage: NextPage<Props> = (props) => {
   const router = useRouter()
   const { pageId } = router.query
-  const blocks = useSWR<any, Error>(
+  const username = useSelector((state: RootState) => state.user.username)
+  const userPageId = useSelector((state: RootState) => state.user.userPageId)
+  const isLikedResponse = useSWR<boolean, Error>(
+    `/api/check_liked_article/${props.pageData.id}/${userPageId}`,
+    (url) => fetch(url).then((r) => r.json()),
+  )
+  const userResponse = useSWR<GetPageResponse, Error>(
+    `/api/get_user_page/${username}`,
+    (url) => fetch(url).then((r) => r.json()),
+  )
+  const blocksResponse = useSWR<any, Error>(
     `/api/retrive_page_blocks/${pageId}`,
     (url) => fetch(url).then((r) => r.json()),
   )
 
-  const blocksData = blocks.data
-  const blocksError = blocks.error
+  let isLiked = false
+  if (!isLikedResponse.error && isLikedResponse.data) {
+    isLiked = isLikedResponse.data
+  }
+
+  let relations: Array<{ id: string }> = []
+  if (!userResponse.error && userResponse.data) {
+    const user = userResponse.data as any
+    relations = user.properties.articles.relation as Array<{ id: string }>
+  }
+
+  const blocksData = blocksResponse.data
+  const blocksError = blocksResponse.error
   let blocksComponent = <></>
 
   const pageData = props.pageData as any
@@ -73,9 +122,32 @@ const ArticlePage: NextPage<Props> = (props) => {
             <AspectRatio ratio={[2 / 1, 4 / 1]} backgroundColor="transparent">
               <Image shadow="2xl" rounded="lg" src={coverUrl} />
             </AspectRatio>
-            <Box position="relative" left={['2', '4']} bottom={[5, 10]}>
+            <Flex align="center" position="relative" bottom={[5, 10]}>
+              <Spacer />
               <LinkIconButton href="/" icon={faHome} />
-            </Box>
+              <Spacer />
+              {username != undefined && (
+                <IconButton
+                  icon={isLiked ? faSolidHeart : faRegularHeart}
+                  onClick={async () => {
+                    if (isLiked) {
+                      await destroyLike({
+                        articlePageId: pageData.id,
+                        userPageId: userPageId as string,
+                      })
+                    } else {
+                      await like({
+                        articlePageId: pageData.id,
+                        userPageId: userPageId as string,
+                      })
+                    }
+                    await isLikedResponse.mutate()
+                  }}
+                />
+              )}
+
+              <Spacer />
+            </Flex>
           </Box>
           <Center marginX={[2, 24]} marginBottom="12">
             <Flex maxWidth="100%" align="center" direction="column">

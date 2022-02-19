@@ -7,12 +7,12 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
 
-const RetriveDatabaseDescendingPages: (
+const DescendingArticlePages: (
   req: NextApiRequest,
   res: NextApiResponse<QueryDatabaseResponse>,
 ) => Promise<void> = async (_, res) => {
   const result = await notion.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID as string,
+    database_id: process.env.NOTION_ARTICLES_DATABASE_ID as string,
     filter: {
       and: [
         {
@@ -34,4 +34,4 @@ const RetriveDatabaseDescendingPages: (
   res.status(200).json(result)
 }
 
-export default RetriveDatabaseDescendingPages
+export default DescendingArticlePages

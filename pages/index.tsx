@@ -1,6 +1,7 @@
 import {
   AspectRatio,
   Box,
+  Button,
   Center,
   Divider,
   Flex,
@@ -13,19 +14,45 @@ import {
   WrapItem,
 } from '@chakra-ui/react'
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
-import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  GetPageResponse,
+  QueryDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import { userSlice } from 'ducks/user/slice'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import NextLink from 'next/link'
+import { useMoralis } from 'react-moralis'
+import { useDispatch } from 'react-redux'
 import useSWR from 'swr'
 import { ArticleCard } from '../components/article_card'
 import { LinkIconButton } from '../components/link_icon_button'
 
 const Home: NextPage = () => {
+  const dispatch = useDispatch()
+  const { authenticate, isAuthenticated, user, logout } = useMoralis()
+  const username = user?.getUsername()
+
   const { data, error } = useSWR<QueryDatabaseResponse, Error>(
-    '/api/retrive_database_descending_pages',
+    '/api/retrive_database/descending_article_pages',
     (url) => fetch(url).then((r) => r.json()),
   )
+  const userResponse = useSWR<GetPageResponse, Error>(
+    `/api/get_user_page/${username}`,
+    (url) => fetch(url).then((r) => r.json()),
+  )
+
+  let relations: Array<{ id: string }> = []
+  if (!userResponse.error && userResponse.data) {
+    const user = userResponse.data as any
+    relations = user.properties.articles.relation as Array<{ id: string }>
+    dispatch(
+      userSlice.actions.login({
+        username: username,
+        userPageId: userResponse.data.id,
+      }),
+    )
+  }
 
   return (
     <>
@@ -77,6 +104,30 @@ const Home: NextPage = () => {
             </Text>
           </Box>
         </Center>
+        <Flex marginTop="4" align="center" direction="column">
+          {!isAuthenticated ? (
+            <Button onClick={() => authenticate()}>
+              Authenticate with Metamask (only PC)
+            </Button>
+          ) : (
+            <>
+              <Text fontWeight="semibold" fontSize={['xs', 'sm']}>
+                Congrats🎉 Login Completed!
+              </Text>
+              <Text fontSize={['xs', 'sm']}>
+                Your username is {user?.getUsername()}
+              </Text>
+              <Button
+                marginTop="4"
+                onClick={async () => {
+                  await logout()
+                  dispatch(userSlice.actions.logout())
+                }}>
+                Logout
+              </Button>
+            </>
+          )}
+        </Flex>
 
         <Divider marginY="5" />
         <Center marginBottom="5">
@@ -91,6 +142,11 @@ const Home: NextPage = () => {
                 <WrapItem key={v.id}>
                   <ArticleCard
                     id={v.id}
+                    likedCount={v.properties.users.relation.length}
+                    isLiked={
+                      relations.find((relation) => relation.id == v.id) !=
+                      undefined
+                    }
                     name={v.properties.name.title[0].plain_text}
                     createdTime={v.created_time}
                     coverUrl={v.cover?.external?.url ?? v.cover?.file?.url}

@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import { RichTextItemResponse } from '../../types/api-endpoints'
 import { InlineCode } from '../inlines/inline_code'
 import { InlineItalic } from '../inlines/inline_italic'
@@ -18,9 +19,9 @@ export const Paragraph: ({
   text,
   fontSize,
   fontWeight,
-}: ParagraphProps) => JSX.Element[] = ({ id, text, fontSize, fontWeight }) => {
+}: ParagraphProps) => JSX.Element = ({ id, text, fontSize, fontWeight }) => {
   if (text.length != 0) {
-    return text
+    const paragraph = text
       .map((v, i) => {
         let child = <></>
 
@@ -90,7 +91,13 @@ export const Paragraph: ({
         return child
       })
       .flat()
+
+    return <Box key={`paragraph-${id}`}>{paragraph}</Box>
   } else {
-    return [<EmptyBlock key={`empty-${id}`} />]
+    return (
+      <Box key={`empty-${id}`}>
+        <EmptyBlock />
+      </Box>
+    )
   }
 }
