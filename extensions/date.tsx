@@ -21,9 +21,9 @@ Date.prototype.dateTimeBefore = function () {
   const targetDate = this.getTime()
   const now = Date.now()
   const diff = now - targetDate
-  const day = Math.floor(diff / (24 * 3600 * 1000))
-  const hour = Math.floor(diff / (3600 * 1000))
-  const minute = Math.floor(diff / 1000)
+  const day = Math.floor(diff / (24 * 60 * 60 * 1000))
+  const hour = Math.floor(diff / (60 * 60 * 1000))
+  const minute = Math.floor(diff / (60 * 1000))
   const second = Math.floor(diff)
 
   if (second <= 60) {
