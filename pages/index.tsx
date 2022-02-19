@@ -107,7 +107,7 @@ const Home: NextPage = () => {
         <Flex marginTop="4" align="center" direction="column">
           {!isAuthenticated ? (
             <Button onClick={() => authenticate()}>
-              Authenticate with Metamask (only PC)
+              Authenticate with Metamask
             </Button>
           ) : (
             <>

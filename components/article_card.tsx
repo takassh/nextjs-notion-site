@@ -2,12 +2,14 @@ import {
   AspectRatio,
   Badge,
   Box,
+  Center,
   Flex,
   Icon,
   Image,
   Link,
   Spinner,
   Text,
+  useColorMode,
 } from '@chakra-ui/react'
 import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons'
 import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons'
@@ -34,6 +36,7 @@ export const ArticleCard: VFC<Props> = ({
   likedCount,
 }) => {
   const [isLoading, setLoading] = useState<boolean>(false)
+  const { colorMode } = useColorMode()
 
   const date = new Date(createdTime)
   const now = Date.now()
@@ -105,8 +108,14 @@ export const ArticleCard: VFC<Props> = ({
               position="absolute"
               top="50%"
               left="50%"
-              transform="translateY(-50%) translateX(-50%)">
-              <Spinner />
+              transform="translateY(-50%) translateX(-50%)"
+              backgroundColor={colorMode == 'light' ? 'white' : 'black'}
+              padding="2"
+              rounded="lg"
+              opacity="0.4">
+              <Center>
+                <Spinner />
+              </Center>
             </Box>
           )}
         </Box>

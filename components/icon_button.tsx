@@ -1,4 +1,4 @@
-import { Box, Icon, Spinner, useColorMode } from '@chakra-ui/react'
+import { Box, Center, Icon, Spinner, useColorMode } from '@chakra-ui/react'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, VFC } from 'react'
@@ -38,8 +38,10 @@ export const IconButton: VFC<{
         position="absolute"
         top="50%"
         left="50%"
-        transform="translateY(-40%) translateX(-50%)">
-        <Spinner color={colorMode == 'light' ? 'black' : 'white'} />
+        transform="translateY(-50%) translateX(-50%)">
+        <Center>
+          <Spinner color={colorMode == 'light' ? 'black' : 'white'} />
+        </Center>
       </Box>
     </Box>
   )
