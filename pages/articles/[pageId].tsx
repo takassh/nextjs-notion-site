@@ -17,12 +17,11 @@ import { GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Block } from 'components/blocks/block'
 import { IconButton } from 'components/icon_button'
 import { LinkIconButton } from 'components/link_icon_button'
-import { RootState } from 'ducks/store'
 import 'extensions/date'
+import { useUserStatus } from 'hooks/useUserStatus'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, NextPage } from 'next/types'
-import { useSelector } from 'react-redux'
 import useSWR from 'swr'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -63,14 +62,10 @@ type Props = {
 const ArticlePage: NextPage<Props> = (props) => {
   const router = useRouter()
   const { pageId } = router.query
-  const username = useSelector((state: RootState) => state.user.username)
-  const userPageId = useSelector((state: RootState) => state.user.userPageId)
+  const { username, userPageId } = useUserStatus()
+
   const isLikedResponse = useSWR<boolean, Error>(
     `/api/check_liked_article/${props.pageData.id}/${userPageId}`,
-    (url) => fetch(url).then((r) => r.json()),
-  )
-  const userResponse = useSWR<GetPageResponse, Error>(
-    `/api/get_user_page/${username}`,
     (url) => fetch(url).then((r) => r.json()),
   )
   const blocksResponse = useSWR<any, Error>(
@@ -81,12 +76,6 @@ const ArticlePage: NextPage<Props> = (props) => {
   let isLiked = false
   if (!isLikedResponse.error && isLikedResponse.data) {
     isLiked = isLikedResponse.data
-  }
-
-  let relations: Array<{ id: string }> = []
-  if (!userResponse.error && userResponse.data) {
-    const user = userResponse.data as any
-    relations = user.properties.articles.relation as Array<{ id: string }>
   }
 
   const blocksData = blocksResponse.data
