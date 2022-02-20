@@ -74,8 +74,8 @@ const Home: NextPage = () => {
         <Center>
           <Box marginX={['4', '10']}>
             <Text as="span" fontWeight="semibold" fontSize={['xs', 'sm']}>
-              Hello! This site is powered by NextJs, Notion and Moralis. Github
-              repository is
+              Hello! This site is powered by NextJs, Chakra, Notion and Moralis.
+              Github repository is
             </Text>
             <Text as="span"> </Text>
             <Text as="u" fontWeight="semibold" fontSize={['xs', 'sm']}>

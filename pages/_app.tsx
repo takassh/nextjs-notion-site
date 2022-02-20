@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Box as="main" width="full">
               <Component {...pageProps} />
             </Box>
-            <Box width="full" paddingTop={['10']} paddingX={['10']}>
+            <Box width="full" paddingTop={['5']}>
               <Footer />
             </Box>
           </ChakraProvider>
