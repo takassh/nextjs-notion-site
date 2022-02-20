@@ -62,7 +62,8 @@ type Props = {
 const ArticlePage: NextPage<Props> = (props) => {
   const router = useRouter()
   const { pageId } = router.query
-  const { username, userPageId } = useUserStatus()
+  const { user, userPageId } = useUserStatus()
+  const username = user?.getUsername()
 
   const isLikedResponse = useSWR<boolean, Error>(
     `/api/check_liked_article/${props.pageData.id}/${userPageId}`,

@@ -10,14 +10,13 @@ export const useUserStatus: () => {
   ) => Promise<Moralis.User<Moralis.Attributes> | undefined>
   logout: () => Promise<void>
   isAuthenticated: boolean
-  username?: string
+  user: Moralis.User<Moralis.Attributes> | null
   userPageId?: string
   relations?: Array<{ id: string }>
 } = () => {
   const { isAuthenticated, user, authenticate, logout } = useMoralis()
-  const username = user?.getUsername()
   const userResponse = useSWR<GetPageResponse, Error>(
-    `/api/get_user_page/${username}`,
+    `/api/get_user_page/${user?.getUsername()}`,
     (url) => fetch(url).then((r) => r.json()),
   )
 
@@ -27,20 +26,20 @@ export const useUserStatus: () => {
     ) => Promise<Moralis.User<Moralis.Attributes> | undefined>
     logout: () => Promise<void>
     isAuthenticated: boolean
-    username?: string
+    user: Moralis.User<Moralis.Attributes> | null
     userPageId?: string
     relations?: Array<{ id: string }>
   } = {
     authenticate: authenticate,
     logout: logout,
     isAuthenticated: isAuthenticated,
+    user: user,
   }
   if (!userResponse.error && userResponse.data) {
     const user = userResponse.data as any
     const relations = user.properties.articles.relation as Array<{ id: string }>
     result = {
       ...result,
-      username: username,
       userPageId: userResponse.data.id,
       relations: relations,
     }

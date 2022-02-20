@@ -3,12 +3,16 @@ import {
   Box,
   Button,
   Center,
-  Divider,
   Flex,
   Image,
   Link,
   Spacer,
   Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   Wrap,
   WrapItem,
@@ -24,8 +28,9 @@ import { ArticleCard } from '../components/article_card'
 import { LinkIconButton } from '../components/link_icon_button'
 
 const Home: NextPage = () => {
-  const { authenticate, logout, username, relations, isAuthenticated } =
+  const { authenticate, logout, user, relations, isAuthenticated } =
     useUserStatus()
+  const username = user?.getUsername()
 
   const { data, error } = useSWR<QueryDatabaseResponse, Error>(
     '/api/retrive_database/descending_article_pages',
@@ -69,7 +74,7 @@ const Home: NextPage = () => {
         <Center>
           <Box marginX={['4', '10']}>
             <Text as="span" fontWeight="semibold" fontSize={['xs', 'sm']}>
-              Hello! This site is powered by NextJs and Notion. Github
+              Hello! This site is powered by NextJs, Notion and Moralis. Github
               repository is
             </Text>
             <Text as="span"> </Text>
@@ -104,31 +109,108 @@ const Home: NextPage = () => {
           )}
         </Flex>
 
-        <Divider marginY="5" />
-        <Center marginBottom="5">
-          <Text fontWeight="bold">Dev Blog</Text>
+        <Center marginTop="10" marginBottom="2">
+          <Text fontWeight="semibold">Dev Ticket</Text>
         </Center>
+
         <Center>
           {error || !data ? (
             <Spinner />
           ) : (
-            <Wrap spacing={[0, '0.5rem']} justify="center">
-              {data.results.map((v: any) => (
-                <WrapItem key={v.id}>
-                  <ArticleCard
-                    id={v.id}
-                    likedCount={v.properties.users.relation.length}
-                    isLiked={
-                      relations?.find((relation) => relation.id == v.id) !=
-                      undefined
-                    }
-                    name={v.properties.name.title[0].plain_text}
-                    createdTime={v.created_time}
-                    coverUrl={v.cover?.external?.url ?? v.cover?.file?.url}
-                  />
-                </WrapItem>
-              ))}
-            </Wrap>
+            <Tabs>
+              <TabList justifyContent="center">
+                <Tab fontWeight="semibold" textTransform="uppercase">
+                  All
+                </Tab>
+                <Tab fontWeight="semibold" textTransform="uppercase">
+                  Done
+                </Tab>
+                <Tab fontWeight="semibold" textTransform="uppercase">
+                  In Progress
+                </Tab>
+              </TabList>
+
+              <TabPanels>
+                <TabPanel width="100vw">
+                  <Wrap spacing={[0, '0.5rem']} justify="center">
+                    {data.results.map((v: any) => (
+                      <WrapItem key={v.id}>
+                        <ArticleCard
+                          id={v.id}
+                          status={v.properties.status.select.name}
+                          likedCount={v.properties.users.relation.length}
+                          isLiked={
+                            relations?.find(
+                              (relation) => relation.id == v.id,
+                            ) != undefined
+                          }
+                          name={v.properties.name.title[0].plain_text}
+                          createdTime={v.created_time}
+                          coverUrl={
+                            v.cover?.external?.url ?? v.cover?.file?.url
+                          }
+                        />
+                      </WrapItem>
+                    ))}
+                  </Wrap>
+                </TabPanel>
+                <TabPanel width="100vw">
+                  <Wrap spacing={[0, '0.5rem']} justify="center">
+                    {data.results
+                      .filter(
+                        (v: any) => v.properties.status.select.name == 'done',
+                      )
+                      .map((v: any) => (
+                        <WrapItem key={v.id}>
+                          <ArticleCard
+                            id={v.id}
+                            status={v.properties.status.select.name}
+                            likedCount={v.properties.users.relation.length}
+                            isLiked={
+                              relations?.find(
+                                (relation) => relation.id == v.id,
+                              ) != undefined
+                            }
+                            name={v.properties.name.title[0].plain_text}
+                            createdTime={v.created_time}
+                            coverUrl={
+                              v.cover?.external?.url ?? v.cover?.file?.url
+                            }
+                          />
+                        </WrapItem>
+                      ))}
+                  </Wrap>
+                </TabPanel>
+                <TabPanel width="100vw">
+                  <Wrap spacing={[0, '0.5rem']} justify="center">
+                    {data.results
+                      .filter(
+                        (v: any) =>
+                          v.properties.status.select.name == 'in progress',
+                      )
+                      .map((v: any) => (
+                        <WrapItem key={v.id}>
+                          <ArticleCard
+                            id={v.id}
+                            status={v.properties.status.select.name}
+                            likedCount={v.properties.users.relation.length}
+                            isLiked={
+                              relations?.find(
+                                (relation) => relation.id == v.id,
+                              ) != undefined
+                            }
+                            name={v.properties.name.title[0].plain_text}
+                            createdTime={v.created_time}
+                            coverUrl={
+                              v.cover?.external?.url ?? v.cover?.file?.url
+                            }
+                          />
+                        </WrapItem>
+                      ))}
+                  </Wrap>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           )}
         </Center>
       </Flex>

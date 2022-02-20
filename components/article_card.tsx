@@ -25,6 +25,7 @@ type Props = {
   name: string
   isLiked: boolean
   likedCount: number
+  status: string
 }
 
 export const ArticleCard: VFC<Props> = ({
@@ -34,6 +35,7 @@ export const ArticleCard: VFC<Props> = ({
   coverUrl,
   isLiked,
   likedCount,
+  status,
 }) => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const { colorMode } = useColorMode()
@@ -51,51 +53,53 @@ export const ArticleCard: VFC<Props> = ({
           shadow={['md', 'none']}
           _hover={{ shadow: 'md' }}
           marginY={['1', 0]}
-          maxW={['', '2xs']}
+          maxW={['', 'xs']}
           borderWidth="1px"
           borderRadius="lg"
           overflow="hidden"
           position="relative">
           <AspectRatio
-            maxW={['', '2xs']}
+            maxW={['', 'xs']}
             width={['calc(100vw - 2rem)', '']}
             ratio={2 / 1}
             backgroundColor="transparent">
             <Image src={coverUrl} />
           </AspectRatio>
-          <Box p={['4', '5']}>
-            <Flex alignItems="center" marginBottom="1">
+          <Box p={['4']}>
+            <Flex alignItems="center" marginBottom="2">
               {isNew && (
-                <Badge borderRadius="full" px="2">
+                <Badge borderRadius="full" px="2" marginRight="1">
                   New
                 </Badge>
               )}
-              <Box
-                color="gray.500"
-                fontWeight="semibold"
-                letterSpacing="wide"
-                fontSize="xs"
-                textTransform="uppercase"
-                marginX="1">
-                {date.dateTimeBefore()}
-              </Box>
-
-              <Flex justify="center" align="center">
+              {status != 'done' && (
+                <Badge borderRadius="full" px="2" marginRight="1">
+                  {status}
+                </Badge>
+              )}
+              <Flex justify="center" align="center" marginX="1">
                 <Icon
-                  marginX="1"
                   fontSize={['xs', 'xs']}
                   as={FontAwesomeIcon}
                   icon={likedCount > 0 ? faSolidHeart : faRegularHeart}
                   color={isLiked ? 'red' : ''}
                 />
                 {likedCount > 0 && (
-                  <Text fontSize={['xs', 'xs']}>{likedCount}</Text>
+                  <Text fontSize={['xs', 'xs']} marginLeft="1">
+                    {likedCount}
+                  </Text>
                 )}
               </Flex>
+              <Box
+                color="gray.500"
+                fontWeight="semibold"
+                letterSpacing="wide"
+                fontSize="xs">
+                {date.dateTimeBefore()}
+              </Box>
             </Flex>
             <Box
-              mx="1"
-              mt="1"
+              marginX="1"
               fontWeight="semibold"
               as="h4"
               lineHeight="tight"
