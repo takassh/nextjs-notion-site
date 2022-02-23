@@ -128,8 +128,10 @@ const Home: NextPage = () => {
                 <Tab fontWeight="semibold" textTransform="uppercase">
                   In Progress
                 </Tab>
+                <Tab fontWeight="semibold" textTransform="uppercase">
+                  Article
+                </Tab>
               </TabList>
-
               <TabPanels>
                 <TabPanel width="100vw">
                   <Wrap spacing={[0, '0.5rem']} justify="center">
