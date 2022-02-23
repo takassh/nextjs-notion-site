@@ -209,6 +209,34 @@ const Home: NextPage = () => {
                       ))}
                   </Wrap>
                 </TabPanel>
+                <TabPanel width="100vw">
+                  <Wrap spacing={[0, '0.5rem']} justify="center">
+                    {data.results
+                      .filter(
+                        (v: any) =>
+                          v.properties.status.select.name == 'article',
+                      )
+                      .map((v: any) => (
+                        <WrapItem key={v.id}>
+                          <ArticleCard
+                            id={v.id}
+                            status={v.properties.status.select.name}
+                            likedCount={v.properties.users.relation.length}
+                            isLiked={
+                              relations?.find(
+                                (relation) => relation.id == v.id,
+                              ) != undefined
+                            }
+                            name={v.properties.name.title[0].plain_text}
+                            createdTime={v.created_time}
+                            coverUrl={
+                              v.cover?.external?.url ?? v.cover?.file?.url
+                            }
+                          />
+                        </WrapItem>
+                      ))}
+                  </Wrap>
+                </TabPanel>
               </TabPanels>
             </Tabs>
           )}
