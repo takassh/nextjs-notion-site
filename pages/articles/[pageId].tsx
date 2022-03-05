@@ -117,26 +117,27 @@ const ArticlePage: NextPage<Props> = (props) => {
               <LinkIconButton href="/" icon={faHome} />
               <Spacer />
               {username != undefined && (
-                <IconButton
-                  icon={isLiked ? faSolidHeart : faRegularHeart}
-                  onClick={async () => {
-                    if (isLiked) {
-                      await destroyLike({
-                        articlePageId: pageData.id,
-                        userPageId: userPageId as string,
-                      })
-                    } else {
-                      await like({
-                        articlePageId: pageData.id,
-                        userPageId: userPageId as string,
-                      })
-                    }
-                    await isLikedResponse.mutate()
-                  }}
-                />
+                <>
+                  <IconButton
+                    icon={isLiked ? faSolidHeart : faRegularHeart}
+                    onClick={async () => {
+                      if (isLiked) {
+                        await destroyLike({
+                          articlePageId: pageData.id,
+                          userPageId: userPageId as string,
+                        })
+                      } else {
+                        await like({
+                          articlePageId: pageData.id,
+                          userPageId: userPageId as string,
+                        })
+                      }
+                      await isLikedResponse.mutate()
+                    }}
+                  />
+                  <Spacer />
+                </>
               )}
-
-              <Spacer />
             </Flex>
           </Box>
           <Center marginX={[2, 24]} marginBottom="12">
