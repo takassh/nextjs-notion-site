@@ -43,6 +43,7 @@ export const Block: (
               key={`bulleted_list_item-${i}`}
               id={v.id}
               text={v.bulleted_list_item.text}
+              hasChildren={v.has_children}
             />
           )
         case 'numbered_list_item':
